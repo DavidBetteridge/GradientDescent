@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -75,12 +76,12 @@ namespace GradientDescent
         {
             using var g = _panel.CreateGraphics();
 
-            var start = new Point(0, (int)t0);
-            var end = new Point(10, (int)(t0 + (t1 * 10)));
+            var start = new PointF(0, (float)t0);
+            var end = new PointF(10, (float)(t0 + (t1 * 10)));
 
             g.DrawLine(Pens.Green,
-                       new Point(XtoCoord(start.X), YtoCoord(start.Y)),
-                       new Point(XtoCoord(end.X), YtoCoord(end.Y)));
+                       new PointF(XtoCoord(start.X), YtoCoord(start.Y)),
+                       new PointF(XtoCoord(end.X), YtoCoord(end.Y)));
         }
 
         private void _panel_MouseClick(object sender, MouseEventArgs e)
@@ -123,8 +124,8 @@ namespace GradientDescent
             }
         }
 
-        private int XtoCoord(float x) => (int)(border + (x * ((_panel.Width - border * 2) / 10.0)));
-        private int YtoCoord(float y) => (int)(border + ((10 - y) * ((_panel.Height - border * 2) / 10.0)));
+        private int XtoCoord(float x) => (int)Math.Max(0, border + (Math.Max(0, x) * ((_panel.Width - border * 2) / 10.0)));
+        private int YtoCoord(float y) => (int)Math.Max(0, border + ((10 - Math.Max(0, y)) * ((_panel.Height - border * 2) / 10.0)));
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
